@@ -1,4 +1,11 @@
 ######################################################################
+# Thanks:
+#   https://github.com/aktau/github-release
+#   https://github.com/c4milo/github-release
+#   https://github.com/MozillaSecurity/dolly
+######################################################################
+
+######################################################################
 # Constants
 ######################################################################
 
@@ -19,6 +26,7 @@ help:
 	@echo "check-release - will check whether the current directory matches the tagged release in git."
 	@echo "patch-release - increments the patch release level, build and push to github."
 	@echo "minor-release - increments the minor release level, build and push to github."
+	@echo "major-release - increments the major release level, build and push to github."
 	@echo "clean         - remove all build artifacts"
 	@echo "clean-build   - remove build artifacts"
 	@echo "clean-pyc     - remove Python file artifacts"
@@ -30,6 +38,9 @@ tag-patch-release: .release tag
 
 tag-minor-release: VERSION := $(shell . $(RELEASE_SUPPORT); nextMinorLevel)
 tag-minor-release: .release tag
+
+tag-major-release: VERSION := $(shell . $(RELEASE_SUPPORT); nextMajorLevel)
+tag-major-release: .release tag 
 
 tag: TAG=$(shell . $(RELEASE_SUPPORT); getTag $(VERSION))
 tag: check-status
@@ -48,6 +59,9 @@ patch-release: tag-patch-release release
 	@echo $(VERSION)
 
 minor-release: tag-minor-release release
+	@echo $(VERSION)
+
+major-release: tag-major-release release
 	@echo $(VERSION)
 
 .release:
