@@ -1,6 +1,17 @@
 # Changelog
 
 
+## 3.0.0 (2017-06-05)
+
+### New
+
+* Changelog format Markdown. [Abner G Jacobsen]
+
+### Other
+
+* Version bumped to 3.0.0. [Abner G Jacobsen]
+
+
 ## 2.8.0 (2017-06-05)
 
 ### Fix
@@ -8,6 +19,8 @@
 * Changed format to Markdown. [Abner G Jacobsen]
 
 ### Other
+
+* CHANGELOG.md generated. [Abner G Jacobsen]
 
 * Version bumped to 2.8.0. [Abner G Jacobsen]
 
