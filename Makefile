@@ -4,6 +4,7 @@
 #   https://github.com/c4milo/github-release
 #   https://github.com/MozillaSecurity/dolly
 #   https://gist.github.com/danielestevez/2044589
+#   https://github.com/vaab/gitchangelog
 ######################################################################
 
 ######################################################################
@@ -50,10 +51,10 @@ tag: check-status
 	git add .release
 	git commit -am "Version bumped to $(VERSION)"
 	git tag -a "$(VERSION)" -m "release $(VERSION)"
-	@gitchangelog > ./CHANGELOG.rst
+	@gitchangelog > ./CHANGELOG.md
 	git tag -d "$(VERSION)"
 	git add CHANGELOG.rst
-	git commit -am "CHANGELOG.rst generated"
+	git commit -am "CHANGELOG.md generated"
 	git tag -a "$(VERSION)" -m "release $(VERSION)"
 	git push
 	git push --tags
