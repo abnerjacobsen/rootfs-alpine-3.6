@@ -27,7 +27,6 @@ help:
 	@echo "coverage      - check code coverage quickly with the default Python"
 	@echo "dist          - package"
 	@echo "install       - install the package to the active Python's site-packages"
-	@echo "release       - package and upload a release to PyPI"
 	@echo "release-test  - package and upload a release to PYPI (test)"
 	@echo "docs          - generate Sphinx HTML documentation, including API docs"
 	@echo "lint          - check style with Pylint"
@@ -57,8 +56,8 @@ patch-release: tag-patch-release release3
 	@echo INFO: .release created
 	@cat .release
 
-#release3: check-status check-release
-release3: check-status
+#release: check-status check-release
+release: check-status
 
 showver: .release
 	@. $(RELEASE_SUPPORT); getVersion
@@ -115,15 +114,6 @@ coverage:
 	coverage report -m
 	coverage html
 	open htmlcov/index.html
-
-release: clean
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
-
-release-test: clean
-	python setup.py sdist upload --repository https://testpypi.python.org/pypi
-	python setup.py bdist_wheel upload --repository https://testpypi.python.org/pypi
-	open https://testpypi.python.org/pypi/{{cookiecutter.repo_name}}
 
 dist: clean
 	python setup.py sdist
