@@ -1,0 +1,166 @@
+#!/usr/bin/with-contenv sh
+
+USER_ID=${DASPANEL_SYS_USERID:-1000}
+echo "[DASPANEL] INFO: Starting with UID $USER_ID"
+addgroup -g $USER_ID daspanel
+adduser -s /bin/false -D -h /home/daspanel -u $USER_ID -G daspanel daspanel
+
+# Installation UUID must be informed
+if [ -z "$DASPANEL_SYS_UUID" ]; then
+    echo "***"
+    echo "ERROR: You must set the env variable DASPANEL_SYS_UUID to a valid UUID"
+    echo "***"
+    exit 1
+fi
+
+# API server 
+if [ -z "$DASPANEL_SYS_APISERVER" ]; then
+    export DASPANEL_SYS_APISERVER="http://daspanel-api:8080/1.0"
+    printf $DASPANEL_SYS_APISERVER > /var/run/s6/container_environment/DASPANEL_SYS_APISERVER
+fi
+
+# API key 
+if [ -z "$DASPANEL_SYS_APIKEY" ]; then
+    export DASPANEL_SYS_APIKEY="$DASPANEL_SYS_UUID"
+    printf $DASPANEL_SYS_APIKEY > /var/run/s6/container_environment/DASPANEL_SYS_APIKEY
+fi
+
+# If container need to wait API become online 
+if [ -z "$DASPANEL_WAIT_FOR_API" ]; then
+    export DASPANEL_WAIT_FOR_API="YES"
+    printf $DASPANEL_WAIT_FOR_API > /var/run/s6/container_environment/DASPANEL_WAIT_FOR_API
+fi
+
+if [ ! -d "/opt/daspanel/data" ]; then
+	mkdir -p "/opt/daspanel/data"
+fi
+if [ ! -d "/opt/daspanel/log" ]; then
+	mkdir -p "/opt/daspanel/log"
+fi
+
+# secure daspanel
+chown -R daspanel:daspanel /opt/daspanel/data
+chown -R daspanel:daspanel /opt/daspanel/log
+
+exit 0
+
+#wget -O out2.txt --header="Authorization: $DASPANEL_SYS_APIKEY" $DASPANEL_SYS_APISERVER/tenants/$DASPANEL_SYS_UUID
+
+jq '.' /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json > /dev/null
+if [ ! $? -eq 0 ];then
+        rm -f /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json > /dev/null
+fi
+if [ ! -s /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json ]; then
+    rm -f /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json > /dev/null
+fi
+
+if [ ! -f /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json ]; then
+
+    # unless this has already been defined, set
+    if [ -z "$DASPANEL_SYS_HOST" ]; then
+        export DASPANEL_SYS_HOST="daspanel.site"
+    fi
+
+    # unless this has already been defined, set
+    if [ -z "$DASPANEL_SYS_ADMIN" ]; then
+        export DASPANEL_SYS_ADMIN="admin@$DASPANEL_SYS_HOST"
+    fi
+
+    # unless this has already been defined, set 
+    if [ -z "$DASPANEL_SYS_PASSWORD" ]; then
+        export DASPANEL_SYS_PASSWORD=`date +%s | sha256sum | base64 | head -c 16 ; echo`
+    fi
+
+    # unless this has already been defined, set
+    if [ -z "$DASPANEL_SYS_MSGHUB" ]; then
+        export DASPANEL_SYS_MSGHUB="mail-catcher"
+    fi
+
+    # unless this has already been defined, set
+    if [ -z "$DASPANEL_SYS_APISERVER" ]; then
+        export DASPANEL_SYS_APISERVER="http://daspanel-api:8080/1.0"
+    fi
+
+    # unless this has already been defined, set
+    if [ -z "$DASPANEL_SYS_DEBUG" ]; then
+        export DASPANEL_SYS_DEBUG=False
+    fi
+else
+    if [ -z "$DASPANEL_SYS_HOST" ]; then
+        export DASPANEL_SYS_HOST=`cat /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json | /usr/bin/jq -r '.sys.hostname'`
+    fi
+    if [ -z "$DASPANEL_SYS_ADMIN" ]; then
+        export DASPANEL_SYS_ADMIN=`cat /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json | /usr/bin/jq -r '.sys.admin'`
+    fi
+    if [ -z "$DASPANEL_SYS_PASSWORD" ]; then
+        export DASPANEL_SYS_PASSWORD=`cat /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json | /usr/bin/jq -r '.sys.password'`
+    fi
+    if [ -z "$DASPANEL_SYS_MSGHUB" ]; then
+        export DASPANEL_SYS_MSGHUB=`cat /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json | /usr/bin/jq -r '.sys.msghub'`
+    fi
+    if [ -z "$DASPANEL_SYS_APISERVER" ]; then
+        export DASPANEL_SYS_APISERVER=`cat /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json | /usr/bin/jq -r '.sys.apiserver'`
+    fi
+    if [ -z "$DASPANEL_SYS_DEBUG" ]; then
+        export DASPANEL_SYS_DEBUG=`cat /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json | /usr/bin/jq -r '.sys.debug'`
+    fi
+fi
+
+if [ ! -d "/opt/daspanel/data/$DASPANEL_SYS_UUID" ]; then
+	mkdir -p "/opt/daspanel/data/$DASPANEL_SYS_UUID"
+fi
+
+if [ ! -d "/opt/daspanel/data/$DASPANEL_SYS_UUID/db" ]; then
+	mkdir -p "/opt/daspanel/data/$DASPANEL_SYS_UUID/db"
+fi
+
+if [ ! -d "/opt/daspanel/log/$DASPANEL_SYS_UUID" ]; then
+	mkdir -p "/opt/daspanel/log/$DASPANEL_SYS_UUID"
+fi
+
+# Create config if not exists
+if [ ! -f /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json ]; then
+    CFG_JSON=$(jq -n -c -M \
+        '{
+            "sys": {
+                "apiserver": env.DASPANEL_SYS_APISERVER,
+                "admin": env.DASPANEL_SYS_ADMIN,
+                "password": env.DASPANEL_SYS_PASSWORD,
+                "hostname": env.DASPANEL_SYS_HOST,
+                "msghub": env.DASPANEL_SYS_MSGHUB,
+                "debug": env.DASPANEL_SYS_DEBUG
+            },
+            "smtp": {
+                "type": "mail-catcher",
+                "server": "daspanel-mail-catcher:1025",
+                "user": env.DASPANEL_SYS_ADMIN,
+                "password": env.DASPANEL_SYS_UUID
+            },
+            "redis": {
+                "server": "daspanel-redis",
+                "port": 6379,
+                "database": 0,
+                "user": "",
+                "password": env.DASPANEL_SYS_UUID
+            }
+        }' \
+    )
+    printf $CFG_JSON > /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json
+else
+    # Update configuration
+    cfg_source=$(cat /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json)
+    echo $cfg_source | \
+    jq -cM '.sys.apiserver="'$DASPANEL_SYS_APISERVER'"' | \
+    jq -cM '.sys.admin="'$DASPANEL_SYS_ADMIN'"' | \
+    jq -cM '.sys.password="'$DASPANEL_SYS_PASSWORD'"' | \
+    jq -cM '.sys.hostname="'$DASPANEL_SYS_HOST'"' | \
+    jq -cM '.sys.msghub="'$DASPANEL_SYS_MSGHUB'"' | \
+    jq -cM '.sys.debug="'$DASPANEL_SYS_DEBUG'"' | \
+    jq -cM '.smtp.user="'$DASPANEL_SYS_ADMIN'"' | \
+    jq -cM '.smtp.password="'$DASPANEL_SYS_UUID'"' > /opt/daspanel/data/$DASPANEL_SYS_UUID/db/sysconfig.json
+fi
+
+# secure daspanel
+chown -R daspanel:daspanel /opt/daspanel/data
+chown -R daspanel:daspanel /opt/daspanel/log
+

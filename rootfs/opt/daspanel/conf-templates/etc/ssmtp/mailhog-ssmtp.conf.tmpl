@@ -1,0 +1,30 @@
+# /etc/ssmtp.conf -- a config file for sSMTP sendmail.
+#
+# The person who gets all mail for userids < 1000
+# Make this empty to disable rewriting.
+root={{ (datasource "cfg").sys.admin }}
+
+# The place where the mail goes. The actual machine name is required
+# no MX records are consulted. Commonly mailhosts are named mail.domain.com
+# The example will fit if you are in domain.com and you mailhub is so named.
+#mailhub=
+mailhub={{ (datasource "cfg").smtp.server }}
+AuthUser={{ (datasource "cfg").smtp.user }}
+AuthPass={{ (datasource "cfg").smtp.password }}
+UseTLS=NO
+UseSTARTTLS=NO
+
+#AuthMethod=LOGIN - https://wiki.debian.org/sSMTP
+
+# Where will the mail seem to come from?
+#rewriteDomain=localhost
+#rewriteDomain=gmail.com
+
+# The full hostname
+hostname={{ (datasource "cfg").sys.hostname }}
+
+# Are users allowed to set their own From: address?
+# YES - Allow the user to specify their own From: address
+# NO - Use the system generated From: address
+FromLineOverride=YES
+

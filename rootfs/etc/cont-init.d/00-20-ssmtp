@@ -1,0 +1,42 @@
+#!/usr/bin/with-contenv sh
+
+# Installation UUID must be informed
+if [ -z "$DASPANEL_SYS_UUID" ]; then
+    echo "***"
+    echo "ERROR: You must set the env variable DASPANEL_SYS_UUID to a valid UUID"
+    echo "***"
+    exit 1
+fi
+
+case "$DASPANEL_WAIT_FOR_API" in
+    YES|yes|Yes)
+        echo "[DASPANEL] Waiting 60 seconds for API: $0" >&2
+        /opt/daspanel/bin/wait-for-api -t 60 $DASPANEL_SYS_APISERVER/info/status
+        result=$?
+        if [ ! $result -eq 0 ] ; then
+            echo "[DASPANEL] Can not connect to API: $DASPANEL_SYS_APISERVER/info/status" >&2
+            exit 1
+        fi
+        ;;
+    *) 
+        echo "[DASPANEL] Container not need to wait API become online: $0" >&2
+        exit 0
+        ;;
+esac
+
+/usr/bin/gomplate -d cfg=$DASPANEL_SYS_APISERVER/tenants/$DASPANEL_SYS_UUID \
+    --datasource-header "cfg=Authorization: $DASPANEL_SYS_APIKEY" \
+    < /opt/daspanel/conf-templates/etc/ssmtp/mailhog-ssmtp.conf.tmpl \
+    >  /etc/ssmtp/ssmtp.conf
+
+/usr/bin/gomplate -d cfg=$DASPANEL_SYS_APISERVER/tenants/$DASPANEL_SYS_UUID \
+    --datasource-header "cfg=Authorization: $DASPANEL_SYS_APIKEY" \
+    < /opt/daspanel/conf-templates/etc/ssmtp/revaliases.tmpl \
+    >  /etc/ssmtp/revaliases
+
+# secure ssmtp - https://wiki.archlinux.org/index.php/SSMTP
+addgroup ssmtp
+chown :ssmtp /etc/ssmtp/ssmtp.conf
+chown :ssmtp /usr/sbin/ssmtp
+chmod g+s /usr/sbin/ssmtp
+
