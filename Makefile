@@ -50,10 +50,10 @@ tag: check-status
 	git add .release
 	git commit -am "Version bumped to $(VERSION)"
 	git tag -a "$(VERSION)" -m "release $(VERSION)"
-	@gitchangelog > ./CHANGELOG.md
+	@gitchangelog > ./CHANGELOG.rst
 	git tag -d "$(VERSION)"
-	git add CHANGELOG.md
-	git commit -am "CHANGELOG.md generated"
+	git add CHANGELOG.rst
+	git commit -am "CHANGELOG.rst generated"
 	git tag -a "$(VERSION)" -m "release $(VERSION)"
 	git push
 	git push --tags
