@@ -40,7 +40,8 @@ tag: check-status
 	@. $(RELEASE_SUPPORT) ; ! tagExists $(TAG) || (echo "ERROR: tag $(TAG) for version $(VERSION) already tagged in git" >&2 && exit 1) ;
 	@. $(RELEASE_SUPPORT) ; setRelease $(VERSION)
 	git add .release
-	git commit
+    git tag -a $(TAG) -m "release $(TAG)"
+	git commit "Version bumped to $(TAG)"
 	git push && git push --tags
 	@changelog=$$(git log $(COMPARISON) --oneline --no-merges) ; \
 	echo "**Changelog $(TAG)**<br/>$$changelog"; \
