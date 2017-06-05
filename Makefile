@@ -59,7 +59,8 @@ patch-release: tag-patch-release release3
 	@echo INFO: .release created
 	@cat .release
 
-release3: check-status check-release
+#release3: check-status check-release
+release3: check-status
 
 showver: .release
 	@. $(RELEASE_SUPPORT); getVersion
