@@ -2,8 +2,14 @@ Changelog
 =========
 
 
+2.4.0 (2017-06-05)
+------------------
+- Version bumped to 2.4.0. [Abner G Jacobsen]
+
+
 2.3.0 (2017-06-05)
 ------------------
+- CHANGELOG.md generated. [Abner G Jacobsen]
 - Version bumped to 2.3.0. [Abner G Jacobsen]
 
 
