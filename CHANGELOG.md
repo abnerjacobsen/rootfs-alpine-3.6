@@ -1,13 +1,19 @@
 # Changelog
 
 
-## 3.0.0 (2017-06-05)
+## 4.0.0 (2017-06-05)
 
 ### New
 
 * Changelog format Markdown. [Abner G Jacobsen]
 
+* Changelog format Markdown. [Abner G Jacobsen]
+
+* Changelog format Markdown. [Abner G Jacobsen]
+
 ### Other
+
+* Version bumped to 4.0.0. [Abner G Jacobsen]
 
 * Version bumped to 3.0.0. [Abner G Jacobsen]
 
