@@ -3,6 +3,7 @@
 #   https://github.com/aktau/github-release
 #   https://github.com/c4milo/github-release
 #   https://github.com/MozillaSecurity/dolly
+#   https://gist.github.com/danielestevez/2044589
 ######################################################################
 
 ######################################################################
