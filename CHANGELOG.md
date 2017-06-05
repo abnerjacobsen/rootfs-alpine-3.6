@@ -2,8 +2,21 @@ Changelog
 =========
 
 
+2.5.0 (2017-06-05)
+------------------
+
+Changes
+~~~~~~~
+- Re-indentend some lines. [Abner G Jacobsen]
+
+Other
+~~~~~
+- Version bumped to 2.5.0. [Abner G Jacobsen]
+
+
 2.4.0 (2017-06-05)
 ------------------
+- CHANGELOG.md generated. [Abner G Jacobsen]
 - Version bumped to 2.4.0. [Abner G Jacobsen]
 
 
