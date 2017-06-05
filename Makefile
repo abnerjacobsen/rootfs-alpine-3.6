@@ -48,16 +48,16 @@ tag: TAG=$(shell . $(RELEASE_SUPPORT); getTag $(VERSION))
 tag: check-status
 	@. $(RELEASE_SUPPORT) ; ! tagExists $(TAG) || (echo "ERROR: tag $(TAG) for version $(VERSION) already tagged in git" >&2 && exit 1) ;
 	@. $(RELEASE_SUPPORT) ; setRelease $(VERSION)
-	git add .release
-	git commit -am "Version bumped to $(VERSION)"
-	git tag -a "$(VERSION)" -m "release $(VERSION)"
+	@git add .release
+	@git commit -am "Version bumped to $(VERSION)"
+	@git tag -a "$(VERSION)" -m "release $(VERSION)"
 	@gitchangelog > ./CHANGELOG.md
-	git tag -d "$(VERSION)"
-	git add CHANGELOG.rst
-	git commit -am "CHANGELOG.md generated"
+	@git tag -d "$(VERSION)"
+	@git add CHANGELOG.rst
+	@git commit -am "CHANGELOG.md generated"
 	git tag -a "$(VERSION)" -m "release $(VERSION)"
-	git push
-	git push --tags
+	@git push
+	@git push --tags
 	@changelog=$$(git log $(COMPARISON) --oneline --no-merges) ; \
 	echo "**Changelog $(VERSION)**<br/>$$changelog"; \
 	bin/github-release release -u abnerjacobsen -r rootfs-alpine-3.6 -t $(VERSION) -n $(VERSION) -d "**Changelog**<br/>$$changelog"
