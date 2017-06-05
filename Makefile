@@ -1,19 +1,64 @@
+######################################################################
+# Constants
+######################################################################
+
+# Customize your project settings in this file.  
+include conf/make-project-settings.mk
+
+LAST_TAG := $(shell git describe --abbrev=0 --tags)
+COMPARISON="$(LAST_TAG)..HEAD"
+
+RELEASE_SUPPORT := scripts/make-release-support.sh
+VERSION=$(shell . $(RELEASE_SUPPORT) ; getVersion)
+TAG=$(shell . $(RELEASE_SUPPORT); getTag)
+
 .PHONY: clean-pyc clean-build docs clean
 
 help:
-	@echo "clean        - remove all build artifacts"
-	@echo "clean-build  - remove build artifacts"
-	@echo "clean-pyc    - remove Python file artifacts"
-	@echo "test         - run tests quickly with the default Python"
-	@echo "test-all     - run tests on every Python version with tox"
-	@echo "coverage     - check code coverage quickly with the default Python"
-	@echo "dist         - package"
-	@echo "install      - install the package to the active Python's site-packages"
-	@echo "release      - package and upload a release to PyPI"
-	@echo "release-test - package and upload a release to PYPI (test)"
-	@echo "docs         - generate Sphinx HTML documentation, including API docs"
-	@echo "lint         - check style with Pylint"
+	@echo "check-status  - will check whether there are outstanding changes."
+	@echo "check-release - will check whether the current directory matches the tagged release in git."
+	@echo "clean         - remove all build artifacts"
+	@echo "clean-build   - remove build artifacts"
+	@echo "clean-pyc     - remove Python file artifacts"
+	@echo "showver       - will show the current release tag based on the directory content."
+	@echo "test          - run tests quickly with the default Python"
+	@echo "test-all      - run tests on every Python version with tox"
+	@echo "coverage      - check code coverage quickly with the default Python"
+	@echo "dist          - package"
+	@echo "install       - install the package to the active Python's site-packages"
+	@echo "release       - package and upload a release to PyPI"
+	@echo "release-test  - package and upload a release to PYPI (test)"
+	@echo "docs          - generate Sphinx HTML documentation, including API docs"
+	@echo "lint          - check style with Pylint"
 
+.release:
+	@echo "release=0.0.0" > .release
+	@echo "tag=$(GITHUB_PROJECT)-0.0.0" >> .release
+	@echo INFO: .release created
+	@cat .release
+
+showver: .release
+	@. $(RELEASE_SUPPORT); getVersion
+
+check-status:
+	@. $(RELEASE_SUPPORT) ; ! hasChanges || (echo "ERROR: there are still outstanding changes" >&2 && exit 1) ;
+
+check-release: .release
+	@. $(RELEASE_SUPPORT) ; tagExists $(TAG) || (echo "ERROR: version not yet tagged in git. make [minor,major,patch]-release." >&2 && exit 1) ;
+	@. $(RELEASE_SUPPORT) ; ! differsFromRelease $(TAG) || (echo "ERROR: current directory differs from tagged $(TAG). make [minor,major,patch]-release." ; exit 1)
+
+# git tag -a v$(RELEASE) -m 'release $(RELEASE)'
+release2:
+	git push && git push --tags
+	@changelog=$$(git log $(COMPARISON) --oneline --no-merges) ; \
+	echo "**Changelog**<br/>$$changelog"; \
+	bin/linux/amd64/github-release release -u abnerjacobsen -r rootfs-alpine-3.6 -t $(LAST_TAG) -n $(LAST_TAG) -d "**Changelog**<br/>$$changelog"
+
+release1:
+	@latest_tag=$$(git describe --tags `git rev-list --tags --max-count=1`); \
+	comparison="$$latest_tag..HEAD"; \
+	if [ -z "$$latest_tag" ]; then comparison=""; fi; \
+	changelog=$$(git log $$comparison --oneline --no-merges); echo $$changelog;
 
 clean: clean-build clean-pyc clean-test
 	find . -name '*~' -exec rm -f {} +
