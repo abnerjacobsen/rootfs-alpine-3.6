@@ -53,7 +53,7 @@ tag: check-status
 	@git tag -a "$(VERSION)" -m "release $(VERSION)"
 	@gitchangelog > ./CHANGELOG.md
 	@git tag -d "$(VERSION)"
-	@git add CHANGELOG.rst
+	@git add CHANGELOG.md
 	@git commit -am "CHANGELOG.md generated"
 	git tag -a "$(VERSION)" -m "release $(VERSION)"
 	@git push
