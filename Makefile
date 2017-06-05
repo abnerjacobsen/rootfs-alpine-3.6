@@ -40,12 +40,12 @@ tag: check-status
 	@. $(RELEASE_SUPPORT) ; ! tagExists $(TAG) || (echo "ERROR: tag $(TAG) for version $(VERSION) already tagged in git" >&2 && exit 1) ;
 	@. $(RELEASE_SUPPORT) ; setRelease $(VERSION)
 	git add .release
-	git tag -a $(TAG) -m "release $(TAG)"
-	git commit "Version bumped to $(TAG)"
+	git tag -a "$(VERSION)" -m "release $(VERSION)"
+	git commit "Version bumped to $(VERSION)"
 	git push && git push --tags
 	@changelog=$$(git log $(COMPARISON) --oneline --no-merges) ; \
-	echo "**Changelog $(TAG)**<br/>$$changelog"; \
-	bin/linux/amd64/github-release release -u abnerjacobsen -r rootfs-alpine-3.6 -t $(TAG) -n $(TAG) -d "**Changelog**<br/>$$changelog"
+	echo "**Changelog $(VERSION)**<br/>$$changelog"; \
+	bin/linux/amd64/github-release release -u abnerjacobsen -r rootfs-alpine-3.6 -t $(VERSION) -n $(VERSION) -d "**Changelog**<br/>$$changelog"
 
 patch-release: tag-patch-release release3
 	@echo $(VERSION)
