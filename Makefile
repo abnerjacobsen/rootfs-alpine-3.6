@@ -44,7 +44,7 @@ tag: check-status
 	git push && git push --tags
 	@changelog=$$(git log $(COMPARISON) --oneline --no-merges) ; \
 	echo "**Changelog**<br/>$$changelog"; \
-	bin/linux/amd64/github-release release -u abnerjacobsen -r rootfs-alpine-3.6 -t $(LAST_TAG) -n $(LAST_TAG) -d "**Changelog**<br/>$$changelog"
+	bin/linux/amd64/github-release release -u abnerjacobsen -r rootfs-alpine-3.6 -t $(TAG) -n $(TAG) -d "**Changelog**<br/>$$changelog"
 
 patch-release: tag-patch-release release3
 	@echo $(VERSION)
