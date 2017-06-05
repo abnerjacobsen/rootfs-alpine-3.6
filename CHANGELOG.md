@@ -1,6 +1,15 @@
 # Changelog
 
 
+## 4.0.1 (2017-06-05)
+
+### Other
+
+* Version bumped to 4.0.1. [Abner G Jacobsen]
+
+* Code cleanup. [Abner G Jacobsen]
+
+
 ## 4.0.0 (2017-06-05)
 
 ### New
@@ -12,6 +21,8 @@
 * Changelog format Markdown. [Abner G Jacobsen]
 
 ### Other
+
+* CHANGELOG.md generated. [Abner G Jacobsen]
 
 * Version bumped to 4.0.0. [Abner G Jacobsen]
 
