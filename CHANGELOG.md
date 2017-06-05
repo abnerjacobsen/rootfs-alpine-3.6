@@ -2,8 +2,10 @@ Changelog
 =========
 
 
-(unreleased)
-------------
+2.2.0 (2017-06-05)
+------------------
+- Version bumped to 2.2.0. [Abner G Jacobsen]
+- Trying to solve CHANGELOG generation problem. [Abner G Jacobsen]
 - Version bumped to 2.1.0. [Abner G Jacobsen]
 - Changed Makefile. [Abner G Jacobsen]
 
