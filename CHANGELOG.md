@@ -4,6 +4,13 @@ Changelog
 
 (unreleased)
 ------------
+- Version bumped to 2.1.0. [Abner G Jacobsen]
+- Changed Makefile. [Abner G Jacobsen]
+
+
+2.0.0 (2017-06-05)
+------------------
+- Version bumped to 2.0.0. [Abner G Jacobsen]
 - Added CHANGELOG.md auto generation to Makefile. [Abner G Jacobsen]
 - .... [Abner G Jacobsen]
 

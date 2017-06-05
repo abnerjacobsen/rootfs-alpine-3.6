@@ -48,9 +48,11 @@ tag: check-status
 	@. $(RELEASE_SUPPORT) ; setRelease $(VERSION)
 	git add .release
 	git commit -am "Version bumped to $(VERSION)"
+	git tag -a "$(VERSION)" -m "release $(VERSION)"
 	@gitchangelog > ./CHANGELOG.md
+	git tag -d "$(VERSION)"
 	git add CHANGELOG.md
-	git commit --no-edit
+	git commit -am "CHANGELOG.md generated"
 	git tag -a "$(VERSION)" -m "release $(VERSION)"
 	git push
 	git push --tags
