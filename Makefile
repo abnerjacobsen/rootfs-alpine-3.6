@@ -17,6 +17,7 @@ TAG=$(shell . $(RELEASE_SUPPORT); getTag)
 help:
 	@echo "check-status  - will check whether there are outstanding changes."
 	@echo "check-release - will check whether the current directory matches the tagged release in git."
+	@echo "patch-release - increments the patch release level, build and push to github."
 	@echo "clean         - remove all build artifacts"
 	@echo "clean-build   - remove build artifacts"
 	@echo "clean-pyc     - remove Python file artifacts"
@@ -31,11 +32,30 @@ help:
 	@echo "docs          - generate Sphinx HTML documentation, including API docs"
 	@echo "lint          - check style with Pylint"
 
+tag-patch-release: VERSION := $(shell . $(RELEASE_SUPPORT); nextPatchLevel)
+tag-patch-release: .release tag
+
+tag: TAG=$(shell . $(RELEASE_SUPPORT); getTag $(VERSION))
+tag: check-status
+	@. $(RELEASE_SUPPORT) ; ! tagExists $(TAG) || (echo "ERROR: tag $(TAG) for version $(VERSION) already tagged in git" >&2 && exit 1) ;
+	@. $(RELEASE_SUPPORT) ; setRelease $(VERSION)
+	git add .release
+	git commit
+	git push && git push --tags
+	@changelog=$$(git log $(COMPARISON) --oneline --no-merges) ; \
+	echo "**Changelog**<br/>$$changelog"; \
+	bin/linux/amd64/github-release release -u abnerjacobsen -r rootfs-alpine-3.6 -t $(LAST_TAG) -n $(LAST_TAG) -d "**Changelog**<br/>$$changelog"
+
+patch-release: tag-patch-release release3
+	@echo $(VERSION)
+
 .release:
 	@echo "release=0.0.0" > .release
 	@echo "tag=$(GITHUB_PROJECT)-0.0.0" >> .release
 	@echo INFO: .release created
 	@cat .release
+
+release3: check-status check-release
 
 showver: .release
 	@. $(RELEASE_SUPPORT); getVersion
