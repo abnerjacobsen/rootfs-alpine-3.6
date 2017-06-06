@@ -34,7 +34,19 @@ help:
 	@echo "clean-build   - remove build artifacts"
 	@echo "clean-pyc     - remove Python file artifacts"
 	@echo "showver       - will show the current release tag based on the directory content."
+	@echo "install-tools - install tools needed to manage the project"
+	@echo "init-project  - Initialize local git project"
 	@echo "dist          - package"
+
+init-project:
+	scripts/github-init.sh
+
+install-tools:
+	sudo pip install gitchangelog pystache
+	wget https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2 -O github-release.tar.bz2
+	tar xvjf github-release.tar.bz2 --strip-components 3 -C bin/
+	rm github-release.tar.bz2
+	chmod ugo+x bin/github-release
 
 tag-patch-release: VERSION := $(shell . $(RELEASE_SUPPORT); nextPatchLevel)
 tag-patch-release: .release tag
