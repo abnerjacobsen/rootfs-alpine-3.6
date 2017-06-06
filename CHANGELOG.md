@@ -1,9 +1,20 @@
 # Changelog
 
 
+## 4.0.5 (2017-06-06)
+
+### Other
+
+* Version bumped to 4.0.5. [Abner G Jacobsen]
+
+* New changelog generator. [Abner G Jacobsen]
+
+
 ## 4.0.4 (2017-06-06)
 
 ### Other
+
+* CHANGELOG.md generated. [Abner G Jacobsen]
 
 * Version bumped to 4.0.4. [Abner G Jacobsen]
 

@@ -55,6 +55,7 @@ tag: check-status
 	@gitchangelog > ./CHANGELOG.md
 	@git tag -d "$(VERSION)"
 	@git add CHANGELOG.md
+    rm -f change.log
 	bin/changelog init
 	bin/changelog prepare
 	bin/changelog finalize --version="$(VERSION)"
