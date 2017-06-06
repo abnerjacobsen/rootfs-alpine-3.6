@@ -1,9 +1,17 @@
 # Changelog
 
 
-## 4.0.5 (2017-06-06)
+## 4.0.6 (2017-06-06)
+
+### Fix
+
+* Corrected Makefile. [Abner G Jacobsen]
+
+* Solved this #1. [Abner G Jacobsen]
 
 ### Other
+
+* Version bumped to 4.0.6. [Abner G Jacobsen]
 
 * Version bumped to 4.0.5. [Abner G Jacobsen]
 

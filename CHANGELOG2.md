@@ -1,9 +1,28 @@
 # Changelog - 
 
+### 4.0.6
+
+__Changes__
+
+- Version bumped to 4.0.6
+- Fix: Corrected Makefile
+- Fix: Solved this #1
+- Version bumped to 4.0.5
+- New changelog generator
+
+__Contributors__
+
+- Abner G Jacobsen
+
+Released by Abner G Jacobsen, Tue 06 Jun 2017 -
+[see the diff](https://github.com/mh-cbon//compare/4.0.4...4.0.6#diff)
+______________
+
 ### 4.0.4
 
 __Changes__
 
+- CHANGELOG.md generated
 - Version bumped to 4.0.4
 - CHANGELOG.md
 - Version bumped to 4.0.3
