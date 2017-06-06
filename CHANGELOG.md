@@ -1,6 +1,15 @@
 # Changelog
 
 
+## 4.0.3 (2017-06-06)
+
+### Other
+
+* Version bumped to 4.0.3. [Abner G Jacobsen]
+
+* Makefile test. [Abner G Jacobsen]
+
+
 ## 4.0.2 (2017-06-06)
 
 ### New
@@ -8,6 +17,8 @@
 * Test with changelog. [Abner G Jacobsen]
 
 ### Other
+
+* CHANGELOG.md generated. [Abner G Jacobsen]
 
 * Version bumped to 4.0.2. [Abner G Jacobsen]
 
