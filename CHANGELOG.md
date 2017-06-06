@@ -1,9 +1,13 @@
 # Changelog
 
 
-## 4.0.3 (2017-06-06)
+## 4.0.4 (2017-06-06)
 
 ### Other
+
+* Version bumped to 4.0.4. [Abner G Jacobsen]
+
+* CHANGELOG.md. [Abner G Jacobsen]
 
 * Version bumped to 4.0.3. [Abner G Jacobsen]
 

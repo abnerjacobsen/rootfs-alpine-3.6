@@ -1,11 +1,35 @@
 # Changelog - 
 
+### 4.0.4
+
+__Changes__
+
+- Version bumped to 4.0.4
+- CHANGELOG.md
+- Version bumped to 4.0.3
+- Makefile test
+
+__Contributors__
+
+- Abner G Jacobsen
+
+Released by Abner G Jacobsen, Tue 06 Jun 2017 -
+[see the diff](https://github.com/mh-cbon//compare/4.0.2...4.0.4#diff)
+______________
+
 ### 4.0.2
 
 __Changes__
 
+- CHANGELOG.md generated
+- Version bumped to 4.0.2
+- new: Test with changelog
 
-Released by N/A, Tue 06 Jun 2017 -
+__Contributors__
+
+- Abner G Jacobsen
+
+Released by Abner G Jacobsen, Tue 06 Jun 2017 -
 [see the diff](https://github.com/mh-cbon//compare/4.0.1...4.0.2#diff)
 ______________
 
