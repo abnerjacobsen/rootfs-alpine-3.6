@@ -1,7 +1,22 @@
 # Changelog
 
 
+## 4.1.0 (2017-06-06)
+
+### New
+
+* Makefile command to install needed tools. [Abner G Jacobsen]
+
+### Other
+
+* Version bumped to 4.1.0. [Abner G Jacobsen]
+
+
 ## 4.0.6 (2017-06-06)
+
+### New
+
+* CHANGELOG2.md generated. [Abner G Jacobsen]
 
 ### Fix
 
