@@ -59,7 +59,7 @@ tag: check-status
 	bin/changelog prepare
 	bin/changelog finalize --version="$(VERSION)"
 	bin/changelog md --out=CHANGELOG2.md
-	@git commit -am "CHANGELOG.md generated"
+	@git commit -am "New: CHANGELOG2.md generated"
 	git tag -a "$(VERSION)" -m "release $(VERSION)"
 	@git push
 	@git push --tags
